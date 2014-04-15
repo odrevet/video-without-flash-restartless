@@ -1,7 +1,5 @@
-const ignoreFrames=true;
-
-/*start - windowlistener*/
 var windowListener = {
+    ignoreFrames:true,
     //DO NOT EDIT HERE
     onOpenWindow: function (aXULWindow) {
 	// Wait for the window to finish loading
@@ -107,7 +105,7 @@ function loadIntoContentWindowAndItsFrames(theWin) {
 	var doc = winArr[j].document;
 	//START - edit below here
 
-	if (ignoreFrames) {
+	if (this.ignoreFrames) {
 	    break;
 	}
 	//END - edit above here
@@ -129,7 +127,7 @@ function unloadFromContentWindowAndItsFrames(theWin) {
 	}
 	var doc = winArr[j].document;
 	//START - edit below here
-	if (ignoreFrames) {
+	if (this.ignoreFrames) {
 	    break;
 	}
 	//END - edit above here

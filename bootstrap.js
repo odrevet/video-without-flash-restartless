@@ -3,7 +3,7 @@ Cu.import('resource://gre/modules/Services.jsm');
 
 function listenPageLoad(event) {
     var cw = event.originalTarget.defaultView;
-    if (cw.frameElement && ignoreFrames) {
+    if (cw.frameElement && windowListener.ignoreFrames) {
 	return;  //dont want to watch frames
     }
     vwof.detectVideo(cw);

@@ -6,7 +6,7 @@
   <Description about="urn:mozilla:install-manifest">
 
     <!-- The id of the extension. -->
-    <em:id>vwof@mozilla.com</em:id>
+    <em:id>vwof@drev.com</em:id>
 
     <!-- A version string identifying the version of the add-on. -->
     <em:version>2.0</em:version>

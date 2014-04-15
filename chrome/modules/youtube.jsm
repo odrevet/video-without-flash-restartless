@@ -20,9 +20,6 @@ var parser = {
 	var player_api = doc.getElementById('player-api');
 	if(player_api){
 	    player_api.setAttribute('id', 'vwof_player-api');  //prevent the player-api div to be erased by the missing plugin tv-static message
-/*	    if(youtubeUtils.yt_is_wide()){
-	      player_api.setAttribute("style", "margin:auto;");  //center the player
-	    }*/
 	}
 	else {
 	    player_api = doc.getElementById('vwof_player-api');  //the page has previously been proceeded

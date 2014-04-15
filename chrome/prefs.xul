@@ -2,15 +2,16 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <prefwindow id="vwofPrefWindow" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <prefpane id="vwof_pref_general" label="General">
-  
+    <script type="application/x-javascript" src="chrome://vwof/content/youtube_utils.js" />  
     <preferences>
       <preference id="extensions.vwof.activate_onload" name="extensions.vwof.activate_onload" type="bool"/>
       <preference id="full-screen-api.approval-required" name="full-screen-api.approval-required" type="bool"/>
     </preferences>
 
-    <checkbox label="Activate on page load" preference="extensions.vwof.activate_onload"/>
-    <checkbox label="Enable missing flash plugin warnings" preference="plugins.notifyMissingFlash"/>
-    <checkbox label="Enable approval message when fullscreen" preference="full-screen-api.approval-required"/>
+    <!--checkbox label="Activate on page load" preference="extensions.vwof.activate_onload"/>
+    <checkbox label="Enable missing flash plugin warnings" preference="plugins.notifyMissingFlash"/-->
+    <checkbox label="Show approval message when fullscreen" preference="full-screen-api.approval-required"/>
+    <checkbox id="vwof_yt_wide" label="YouTube large player" oncommand="youtubeUtils.toggle_yt_wide(event)"/>    
     
   </prefpane>
 
@@ -43,14 +44,10 @@
   </prefpane>
   
   <prefpane id="vwof_pref_modules" label="modules">
-    <script type="application/x-javascript" src="chrome://vwof/content/browserOverlay.js" />
-    <script type="application/x-javascript" src="chrome://vwof/content/youtube_utils.js" />
-
+    <script type="application/x-javascript" src="chrome://vwof/content/vwof.js" />
     <preferences>
       <preference id="extensions.vwof.modules" name="extensions.vwof.modules" type="string"/>
     </preferences>
- 
-    <checkbox id="vwof_yt_wide" label="YouTube large player" oncommand="youtubeUtils.toggle_yt_wide(event)"/>
   </prefpane>
   
   <script src="youtube_utils.js"/> 

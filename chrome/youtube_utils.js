@@ -1,4 +1,4 @@
-youtubeUtils = {
+var youtubeUtils = {
     toggle_yt_wide:function (event){
 	var c = event.target.hasAttribute('checked')?1:0;
 	var wide;
@@ -33,7 +33,7 @@ youtubeUtils = {
 	}
 	catch (errorInfo)
 	{
-	    console.error(errorInfo);
+	    Components.utils.reportError(errorInfo);
 	}
 	return wide;
     }
