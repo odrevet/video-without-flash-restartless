@@ -1,4 +1,3 @@
-var EXPORTED_SYMBOLS = ["parser"];
 var parser = {
     parse_embed: function(cw) {
 	const XPATH_PLAYER = "//embed[contains(@src, 'dewplayer')]";

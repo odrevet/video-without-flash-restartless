@@ -1,4 +1,3 @@
-var EXPORTED_SYMBOLS = ["parser"];
 var parser = {
     BASE_URI        : 'www.dailymotion.com',
     parse_site:function(cw) {

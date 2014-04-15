@@ -3,7 +3,7 @@
    used to play videos which use codec unsupported by default in firefox
    but can be readed with the help of a media plugin (vlc-web-plugin, mplayer)
 */
-var EXPORTED_SYMBOLS = ["parser"];
+
 var parser = {
     parse_embed: function(cw) {
 	const XPATH_PLAYER = "//video";

@@ -1,4 +1,3 @@
-var EXPORTED_SYMBOLS = ["parser"];
 var parser = {
     BASE_URI : 'www.youtube.com',
     API_GET_VIDEO:'http://youtube.com/get_video_info?video_id=VIDEO_ID',
@@ -11,19 +10,17 @@ var parser = {
 	var doc = cw.document;	
 	var video_info = [];
 	var id;
-
+	
 	//get the video id from the current url
 	if(url_match = doc.URL.match(REGEX_VIDEO_ID_SITE)){
 	    id = url_match[1];
 	}
-	else{
-	    throw('cannot retreive ID of a '+this.BASE_URI+' video on '+doc.URL);
-	}
+	else{return;}
 
 	var player_api = doc.getElementById('player-api');
 	if(player_api){
 	    player_api.setAttribute('id', 'vwof_player-api');  //prevent the player-api div to be erased by the missing plugin tv-static message
-/*	    if(vwofChrome.youtubeUtils.yt_is_wide()){
+/*	    if(youtubeUtils.yt_is_wide()){
 	      player_api.setAttribute("style", "margin:auto;");  //center the player
 	    }*/
 	}

@@ -1,4 +1,3 @@
-var EXPORTED_SYMBOLS = ["parser"];
 var parser = {
     parse_embed: function(cw) {
 	const XPATH_PLAYER = "//iframe[starts-with(@src, 'http://cms.springboardplatform.com/embed_iframe')]";

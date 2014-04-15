@@ -1,4 +1,3 @@
-var EXPORTED_SYMBOLS = ["parser"];
 var parser = {
     BASE_URI: 'blip.tv',
     URL_PARAM_JSON: '?skin=json&no_wrap=1',

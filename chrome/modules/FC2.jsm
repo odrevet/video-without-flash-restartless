@@ -1,4 +1,4 @@
-var EXPORTED_SYMBOLS = ["parser"];
+
 var parser = {
     BASE_URI : 'video.fc2.com',
     API_GET_VIDEO:'http://video.fc2.com/ginfo.php?upid=UPID&mimi=MIMI&gk=GK',

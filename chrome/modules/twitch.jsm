@@ -1,4 +1,3 @@
-var EXPORTED_SYMBOLS = ["parser"];
 var parser = {
     BASE_URI : 'www.twitch.tv',
     API_GET_VIDEO:'http://usher.twitch.tv/select/CHANNEL.json?allow_source=true&nauthsig=SIG&nauth=TOKEN&type=any',

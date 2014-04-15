@@ -2,7 +2,7 @@
    ustream parser
    inspired from https://github.com/piscui/ustream-to-ffmpeg
 */
-var EXPORTED_SYMBOLS = ["parser"];
+
 var parser = {
     BASE_URI:'www.ustream.tv',
     
