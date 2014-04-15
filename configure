@@ -1,0 +1,154 @@
+#!/bin/bash
+
+files='find . -type f -not \( -path "*$0*" -o -path "*git*" -o -path "*skin*" -o -path "*.md*" -o -ipath "*make*" \)'
+
+function replace {
+  fieldName=$1
+  oldValue=$2
+  newValue=$3
+  verbose=$4
+  forced=$5
+
+  if [[ $forced -ne 1 ]]; then
+    if [[ $oldValue == $newValue ]]; then
+      echo "The add-on already uses this $fieldName."
+      exit 1
+    fi
+    if [ -z "`eval $files | xargs egrep $oldValue -l`" ]; then
+      echo "ERROR: The addon's $fieldName was already customized."
+      echo "Please clone the repository again to create a new add-on."
+      exit 1
+    fi
+  fi
+
+  if [[ $verbose -ne 1 ]]; then
+    read -p "This add-on's $fieldName will be changed. Continue? (y/n)? "
+  else
+    read -p "This add-on's $fieldName will be changed from '$oldValue' to '$newValue'. Continue? (y/n)? "
+  fi
+
+  if [[ $REPLY == "y" ]]; then
+    if [[ "`uname`" == "Linux" ]]; then
+      eval $files -print0 | xargs -0 sed -i 's/'"$oldValue"'/'"$newValue"'/g'
+    elif [[ "`uname`" == "Darwin" ]]; then
+      eval $files -print0 | xargs -0 sed -i '' 's/'"$oldValue"'/'"$newValue"'/g'
+    else
+      echo "ERROR: Your operating system is not supported yet."
+      exit 1
+    fi
+    printf "Done."
+
+    if [ $verbose == "1" ]; then
+      echo " Modified files:"
+      eval $files | xargs egrep $newValue -l
+      printf "\n"
+    else
+      printf "\n\n"
+    fi
+  else
+    echo "WARNING: No changes were made to the addon's $fieldName."
+    exit 1
+  fi
+}
+
+function proxy {
+  profileName=$1
+  addonDir=$2
+  addonId=`sed -n 's/<em:id>\(.*\)@mozilla.com<\/em:id>/\1/p' install.rdf | head -n 1 | tr -d ' '`
+  forced=$3
+
+  if [[ "`uname`" == "Linux" ]]; then
+    profile="~/.mozilla/firefox/*$profileName"
+  elif [[ "`uname`" == "Darwin" ]]; then
+    profile="~/Library/Application\ Support/Firefox/Profiles/*$profileName"
+  else
+    echo "ERROR: Your operating system is not supported yet."
+    echo "Please refer to the readme for manually creating an extension proxy file."
+    exit 1
+  fi
+
+  if [[ $forced -ne 1 ]]; then
+    read -p "This '$addonId' extension will be linked with the '$profileName' profile. Continue? (y/n)? "
+    if [[ $REPLY != "y" ]]; then
+      exit 1
+    fi
+  fi
+
+  if [[ -n "`eval cd $profile 2>&1`" ]]; then
+    echo "ERROR: The specified profile does not seem to exist at $profile"
+    echo "Please refer to the readme for manually creating an extension proxy file."
+    exit 1
+  fi
+
+  eval cd $profile
+  mkdir extensions &> /dev/null
+  touch extensions/$addonId@mozilla.com
+  echo $addonDir > extensions/$addonId@mozilla.com
+  echo "Done."
+
+  printf "\n"
+  echo "This add-on will be installed in the '$profileName' profile next time you open Firefox."
+  echo "Tip: whenever you change something, go to about:addons in Firefox and re-enable the add-on to quickly update it."
+}
+
+if [[ $# -eq 0 ]]; then
+  echo "Customize this add-on template:"
+  echo "  -i <identifier>     Specify the id, used to identify resources and files in this bundle"
+  echo "  -n <project name>   Specify the name, displayed in the Toolbox and various Firefox menus"
+  echo "  -v <version>        Specify the version, useful for tracking bugs"
+  echo "  -d <description>    Specify the description, shown on addons.mozilla.org"
+  echo "  -a <autor name>     Specify the author, shown on addons.mozilla.org"
+  echo "  -h <url>            Specify the add-on's support homepage url"
+  echo "  -P <profile>        Create an extension proxy file for this add-on, for the specified profile"
+  exit 1
+fi
+
+while getopts "i:n:v:d:a:h:P:" opt; do
+  case $opt in
+    i)
+      replace "id" "my-addon" $OPTARG 1
+      ;;
+    n)
+      replace "name" "MyAddon" $OPTARG 1
+      ;;
+    v)
+      regex="\(<em:version>\).*\(<\/em:version>\)"
+      replace "version" $regex '\1'"$OPTARG"'\2' 0 1
+      ;;
+    d)
+      regex="\(<em:description>\).*\(<\/em:description>\)"
+      replace "description" $regex '\1'"$OPTARG"'\2' 0 1
+      ;;
+    a)
+      regex="\(<em:creator>\).*\(<\/em:creator>\)"
+      replace "author" $regex '\1'"$OPTARG"'\2' 0 1
+      ;;
+    h)
+      regex="\(<em:homepageURL>\).*\(<\/em:homepageURL>\)"
+      replace "homepage" $regex '\1'"$OPTARG"'\2' 0 1
+      ;;
+    P)
+      INSTALL_PROFILE=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ $INSTALL_PROFILE ]]; then
+  proxy $INSTALL_PROFILE `pwd`
+else
+  read -p "WARNING: No user profile specified. Do you want this add-on to be installed next time you open Firefox? (y/n) "
+  if [[ $REPLY == "y" ]]; then
+    proxy "default" `pwd` 1
+  else
+    echo "WARNING: This add-on won't be automatically installed next time you open Firefox."
+    echo "For a faster development process, please refer to the readme for creating an extension proxy file."
+  fi
+fi

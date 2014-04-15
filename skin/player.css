@@ -1,0 +1,71 @@
+.vwof_player {
+    position:relative;
+    width:100%;
+    height:100%;
+    border: 1px #000;
+    background-color: #000;
+    background-size: 100%;
+    background-repeat:no-repeat;
+    background-size:contain;
+    background-position: center top;    
+    display:block;
+    cursor:pointer;
+    z-index:1;
+    text-align:left;
+    vertical-align:top;
+    opacity:0.8;
+    box-shadow: 0 5px 10px #222;
+}
+
+.vwof_player:hover{
+    opacity:1.0;   
+}
+
+.vwof_video_info, .vwof_player span, .vwof_player a{
+    background-color:rgba(2,2,2,0.8);
+    text-shadow: 1em 1em 5em black;
+    box-shadow: 0 5px 10px #222;
+}
+
+
+.vwof_player span, .vwof_player a{
+    position:absolute;
+    font-family:white,bold;
+    font:14px bold;
+    color:white;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-right:5px;  
+
+}
+
+.vwof_player a{
+    text-decoration: underline;
+    top:5px;
+    right:5px;
+}
+
+.vwof_player a:hover {
+    color:#88AAFF;
+    transition:.5s;
+}
+
+.vwof_video_info{
+    vertical-align:top;
+    margin-top:8px;
+    margin-left:2px;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0.2;
+    color: #FFF;  
+}
+
+.vwof_frame{
+    height:100%;
+    width:100%;
+    border:none;
+    z-index:1;
+}
+

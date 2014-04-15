@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+
+    <!-- The id of the extension. -->
+    <em:id>vwof@mozilla.com</em:id>
+
+    <!-- A version string identifying the version of the add-on. -->
+    <em:version>2.0</em:version>
+
+    <!-- The name of the add-on; intended for display in the UI. -->
+    <em:name>Video Without Flash</em:name>
+
+    <!-- A short description to display in the user interface. -->
+    <em:description>Watch videos without flash</em:description>
+
+    <!-- The name of the developer to display in the user interface. -->
+    <em:creator>DREVET Olivier</em:creator>
+
+    <!-- A link to the add-on home page to display in the user interface. -->
+    <em:homepageURL>http://mozilla.org</em:homepageURL>
+
+    <!-- Target Application this extension can install into,
+         with minimum and maximum supported versions. -->
+    <em:targetApplication>
+      <Description>
+        <!-- Mozilla Firefox -->
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>10.0</em:minVersion>
+        <em:maxVersion>29.0b1</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <!-- An integer value representing the type of add-on. -->
+    <em:type>2</em:type> <!-- Extensions -->
+
+    <!-- Tells the application whether the extension is boot-strappable. -->
+    <em:bootstrap>true</em:bootstrap>
+
+    <em:optionsURL>chrome://vwof/content/prefs.xul</em:optionsURL>    
+  </Description>
+</RDF>
