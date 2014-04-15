@@ -1,107 +1,139 @@
-Restartless-Template
-===
+video-without-flash
+===================
 
-Simple template project for developing restartless Firefox Developer Tools addons.
+Firefox extension for watching videos without the flash plugin
 
-![Screenshot](https://dl.dropboxusercontent.com/u/2388316/screenshots/firefox-restartless-addon.png)
 
-## Workflow
+<i>Fetch video source of flash based media and play the video directly with Firefox, without the use of the flash plug-in. </i>
 
-This template allows you to create restartless Firefox add-ons. This means that your workflow can also benefit from it, and reduce the (likely annoying) code->build->install lag. See documentation about [setting up a bootstrapped addon extension environment](https://developer.mozilla.org/docs/Setting_up_extension_development_environment#Firefox_extension_proxy_file) for some in-depth explanation on how to do this.
+<b> Supported sites/embed video player </b>
+<ul>
+<li>Youtube</li>
+<li>Blip</li>
+<li>ScreenWaveMedia</li>
+<li>Dew</li>
+<li>HTML5</li>
+<li>Springboard</li>
+<li>Dailymotion</li>
+<li>UStream </li>
+</ul>
 
-tl;dr: A "Firefox extension proxy file" is a simple way of telling Firefox where an add-on is located, via an absolute path. Whenever you change the contents of the add-on, simply re-enabling it will update it; no need to tediously drag-and-drop-install it anymore.
+Due to some minor variations of providing the video by a same media provider (different version of there player, use of the embed tag) a few videos may not be detected. 
 
-### How to iterate fast
+<b> Usage </b>
+By default the video are detected when a page load, you can disable this behavior in the preference pane and manually try to detect video by pressing 
+ ALT-W or Right Click and "Watch video without flash". 
 
-#### The quick and easy version
+<b>Why you  may want to use this extension</b>
+<ul>
+<li>You experienced some lag or bad CPU performance using flash </li>
+<li>You only use flash to watch videos, and do not want to install a non-free packages on your linux station (this extension is released under the GPL)</li>
+</ul>
 
-This will probably work in most unix-like shell environments, like in OS X and Linux:
-```bash
-git clone https://github.com/victorporof/Restartless-Template.git
-cd Restartless-Template
-./configure -i "your-addon-id" -n "YourAddonName" -d "Your addon description" -a "Your name" -P "default"
+<b> Pro tips </b>
+*To read MP4 videos you must install a media plugin like vlc-web-plugin or gecko-mplayer. Under Windows the vlc web plugin can be install when running the vlc install exe. 
+
+* The video can be save with a "right click / save as" on the "open in a new tab"  link.
+
+* Numerous options in the preference pane : select preferred format / quality when available, disable modules. 
+
+<b> Known bugs </b> 
+(unfortunately these are upstream bugs, nothing I can do about it)
+
+* YouTube : The video area is not reloading when clicking on a suggested video link. After clicking on such a link, please use the ALT-w command to refresh the player area
+
+* VLC plugin : The video crashes when a video is paused when played with the vlc web plugin.
+
+<b> How does it works </b> 
+This extension fetch the direct link to videos using regular expression, XPath, and DOM. When available,  a picture and a select control are displayed to read the video with firefox, using the firefox internal HTML5 compliant media player or a plugin like vlc or mplayer if the user had installed it. 
+
+Each media provider is handled by a "parser". Javascript modules (.jsm) that are loaded at startup. The extension can fairly easy be extended due to it modular approache, as new media provider can be added by implementing a new jsm file. 
+
+<b>Why a HTML5 parser ? </b>
+For licensing reasons firefox do not support at the moment the H264 codec, although  it may change in the future. If a site uses HTML5 to display a video, but the video itself is encoded with H264 or a variant you normally wont be able to play it. By using the HTML5 parser, you can read the video if a media player plugin is installed as stated previously.
+
+
+= Technical documentation for developers =
+
+== How to write a new parser == 
+
+<i>Do not esitate to fork and add your own parser</i>
+
+* Step 1 : Add the name of your parser without the .jsm extension in the browser variable "extensions.vwof.modules" you can do it with about:config for test purposes or do it permanently in src/defaults/preferenes/vwof.js
+The boolean value (parsername:1) is eather if your parser is activated or not. 
+
+
+* Step 2 : Create a jsm file in the modules directory
+
+The parser must respect the following API  : 
+
+```javascript
+var parser = {
+    BASE_URI: '',
+    parse_embed: function(cw) {
+        var video_info = [];
+	return video_info;
+    },
+
+    parse_site: function(cw) {
+	var video_info = [];
+	var player = cw.document.getElementById('');
+	if(!player)return;
+
+	return video_info;
+    }
+};
 ```
 
-__Caveats__: Temporarily, until [issue #3](https://github.com/victorporof/Restartless-Template/issues/3) is fixed:
-* `./configure` can only be used *once* after cloning the repo;
-* `-i` and `-n` *must not* contain spaces, and only use alphanumeric characters.
+=== video_info variable ===
 
-That's it :) Now, after you change something in the add-on, simply re-enable it for it to update automatically. You can do this from the [about:addons](about:addons) page in Firefox: click the "Disable", then the "Enable" button for your add-on.
+video player is an array of an hash
 
-#### The detailed version
+each video is an entry in the array and the hash contains video information
 
-__Step 0__. Clone this repository.
+If the videos array contains more than one element a combo box (select tag)
+will be added in the player displaying the format and quality
 
-__Step 1__. It's a good idea to customize your add-on's id and name *now*, before things get too complex. By default, this template has a vanilla `my-addon` id and `MyAddon` name. You should modify this using `./configure`.
+```javascript
+video_info = 
+[
+{
+'player':,              //DOM where the video player will be embed, replacing all child nodes, if undefined, the video open in a new tab
 
-* `./configure -i awesome-addon-id` to set the id; this will be useful when creating an extension proxy file.
-* `./configure -n AwesomeTool` to set the name; this will be displayed in the Toolbox and various Firefox menus.
+'video_img':,           //string link to the picture displayed as a preview, if undefined the background is black
 
-Initially, please try to only use alphanumeric characters for the add-on's id and name.
-
-Optionally, you can also specify the add-on's author, version, description etc.:
-
-* `./configure -v 1.0` to set the version; this is useful for tracking bugs and letting your users know which add-on version they're using.
-* `./configure -d "An awesome description"` to set the description; this will be shown on [addons.mozilla.org](https://addons.mozilla.org/developers/) when publishing your add-on.
-* `./configure -a "Your name"` to set the autor's name; this will be, as well, shown on [addons.mozilla.org](https://addons.mozilla.org/developers/).
-
-__Step 2__. Locate your Firefox profile directory. Read [this](http://kb.mozillazine.org/Profile_folder_-_Firefox) for more information. It's usually in these folders:
-
-* OS X: `~/Library/Application Support/Firefox/Profiles/<profile folder>`
-* Linux: `~/.mozilla/firefox/<profile folder>`
-* Windows: `%APPDATA%\Mozilla\Firefox\Profiles\<profile folder>`
-
-Optionally, you might want to create a new Firefox profile used just for the development of your add-on. This will prevent unexpectedly and accidentally altering your main profile if you make mistakes during the development process. Read more about how to do this [here](https://developer.mozilla.org/Add-ons/Setting_up_extension_development_environment#Development_profile).
-
-__Step 3__. Create a file in the "extensions" directory under your profile directory with the extension's ID as the file name. If there's no "extensions" folder, create it. The extension's ID is in the [install.rdf](https://github.com/victorporof/Restartless-Template/blob/master/install.rdf#L9) file.
-
-For example, with this vanilla template, the extension proxy file name would be `my-addon@mozilla.com`.
-
-__Step 4__. Set the (plain text) contents of this file to be the path to the directory that contains [install.rdf](https://github.com/victorporof/Restartless-Template/blob/master/install.rdf) (where you cloned this repository).
-
-For example, the extension proxy file's contents could be `~/home/myself/work/Restartless-Template`.
-
-__Step 5__. Restart Firefox. A dialog asking you whether "you would like to modify Firefox with the add-on" might show up; please allow the installation and continue.
-
-Open Firefox Developer Tools using Ctrl/Cmd+Shift+I and you'll see your new addon in the Toolbox.
-
-## Theming
-
-Starting with Firefox 29, the developer tools can be "light" or "dark" themed, based on a user preference in the Options panel of the Toolbox. To make your add-on look good regardless of the theme, you should use the `.theme-dark` and `.theme-light` selectors, as exemplified in [skin/style.css](https://github.com/victorporof/Restartless-Template/blob/master/skin/style.css).
-
-```css
-.theme-dark #my-node {
-  color: #f5f7fa;
+'videos': []            //array of video informations, see below
 }
-.theme-light #my-node {
-  color: #ed2655;
+];
+
+videos = 
+[
+{
+'quality':,              //quality of the video (low, medium, hd720, hd1080)
+
+'format':,               //format of the video (webm, mp4, flv, ...)
+
+'url':                   //direct link to the video, this is the only mandatory variable
 }
-```
+];
 
-Take a look at [this wiki](https://developer.mozilla.org/en-US/docs/Tools/DevToolsColors) for the recommended pallete used by default throughout the Firefox developer tools. Try using those colors for a consistent look and feel.
 
-## Making the add-on work for remote targets
+== How to build ==
 
-The Firefox Developer Tools have support for remote debugging. The protocol is described in depth [here](https://wiki.mozilla.org/Remote_Debugging_Protocol) and the remote procedures are described [here](https://developer.mozilla.org/en-US/Firefox_OS/Firefox_OS_usage_tips/Remote_debugging). If you want to make your add-on work with remote debugging, you'll have to support remote targets and [allow the add-on to use them](https://github.com/victorporof/Restartless-Template/blob/master/bootstrap.js#L59).
+This plugin comes with a home made makefile based on mozilla school xul example.
 
-Certain tools in Firefox will always use remote targets, so, for example, your add-on won't show up in the [App Manager](https://developer.mozilla.org/en-US/Firefox_OS/Using_the_App_Manager) if remote targets are not supported.
+Targets are : 
 
-Take a look at [firefox-client](https://github.com/harthur/firefox-client) repo for an example use of the remote debugging API.
+* make
+  Create an .xpi in the ../bin directory (manually create ../bin if necessary)
 
-## Releasing
+* make install
+  install the plugin in the profil directory. By default the profil name is "devel"
+  you can change this behaviour by passing the profile_dir variable (example : make install profile_dir default)
 
-Simply `make` inside the project folder to build and archive the latest version of the add-on. A build directory will be created, containing an .xpi file representing your add-on. Subsequent calls to `make` will update the add-on file with the latest changes.
+* you need to restart firefox to apply the changes, it can be done with the make target
+  make rerun
 
-To wipe the build directory, use `make clean`.
+  which will run the following command : killall firefox ; firefox -purgecaches -P &
 
-If you use git tags to nicely version your project, you can use `make xpi` to build a "release" version of your add-on based on the latest tag. This will not take uncommitted changes into consideration.
 
-## Publish your add-on
-
-Go to https://addons.mozilla.org/developers/ and publish your new awesome add-on.
-
-## Read more
-
-There's some (under development) documentation about the [Developer Tools API](https://developer.mozilla.org/docs/Tools/DevToolsAPI). If you need help, please ask around on irc.mozilla.org, in #devtools.
-
-Thank you. Have fun!
