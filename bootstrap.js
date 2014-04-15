@@ -14,13 +14,15 @@ function startup(aData, aReason) {
     Services.scriptloader.loadSubScript('chrome://vwof/content/player.js');
     Services.scriptloader.loadSubScript('chrome://vwof/content/utils.js');
     Services.scriptloader.loadSubScript('chrome://vwof/content/listener.js');
-    windowListener.register();  
+    windowListener.register();
+    PrefObserver.register();
     vwof.load_modules();
 }
 
 function shutdown(aData, aReason) {
     if (aReason == APP_SHUTDOWN) return;
     windowListener.unregister();
+    PrefObserver.unregister();
 }
 
 function install() {}
