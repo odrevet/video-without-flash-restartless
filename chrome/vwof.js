@@ -5,6 +5,7 @@ var vwof= {
        Load modules listed in the extensions.vwof.modules pref variable to this.parsers hash
     */
     load_modules:function(){
+	Components.utils.import('resource://gre/modules/Services.jsm');
 	var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
 	var modules_list = prefManager.getCharPref("extensions.vwof.modules");
 	var modules = JSON.parse(modules_list);
@@ -14,10 +15,28 @@ var vwof= {
 		let context = {};
 		let res = 'chrome://vwof/content/modules/'+key_parser+'.jsm';
 		Services.scriptloader.loadSubScript(res, context, "UTF-8");
+		context.name = key_parser;
 		this.parsers[key_parser] = context;
 	    }
 	}
     },
+    reload_modules:function(){
+	try{	    
+	    // clear the previously loaded parsers
+	    delete this.parsers;
+	    this.parsers = {};
+
+	    //clear the cache from where the resources are loaded
+	    Components.utils.import('resource://gre/modules/Services.jsm');	    
+	    Services.obs.notifyObservers(null, "startupcache-invalidate", null)
+
+	    //finally load the modules
+	    this.load_modules();
+	}
+	catch(err){
+	    Components.utils.reportError("vwof exception: "+err);
+	};	
+    },    
     getVideoInfo:function (cw) {
 	var video_info = [];	// array of video_data
 	var has_parsed_site = false;
@@ -41,7 +60,7 @@ var vwof= {
 		if(video_data.length >= 1){		    
 		    //set the source (name of the parser)
 		    for(var i=0;i < video_data.length;i++){
-			video_data[i]['source'] = key_parser;
+			video_data[i]['source'] = this.parsers[key_parser].name;
 		    }
 		    
 		    video_info = video_info.concat(video_data);    //concat the chunks of video(s) from this parser

@@ -44,7 +44,6 @@
   </prefpane>
   
   <prefpane id="vwof_pref_modules" label="modules">
-    <script type="application/x-javascript" src="chrome://vwof/content/vwof.js" />
     <preferences>
       <preference id="extensions.vwof.modules" name="extensions.vwof.modules" type="string"/>
     </preferences>

@@ -133,3 +133,35 @@ function unloadFromContentWindowAndItsFrames(theWin) {
 	//END - edit above here
     }
 }
+
+/**
+   Listener that observe the prefs variables
+
+   If the module list changes (new module, module deactivated/activated), the parser list is reloaded
+*/
+var PrefObserver = {
+    register: function() {
+	// First we'll need the preference services to look for preferences.
+	var prefService = Components.classes["@mozilla.org/preferences-service;1"]
+	    .getService(Components.interfaces.nsIPrefService);
+
+	// For this.branch we ask for the preferences
+	this.branch = prefService.getBranch("extensions.vwof.");
+
+	// Finally add the observer.
+	this.branch.addObserver("", this, false);
+    },
+
+    unregister: function() {
+	this.branch.removeObserver("", this);
+    },
+
+    observe: function(aSubject, aTopic, aData) {
+	switch (aData) {
+	case "modules":
+	    vwof.reload_modules();
+	    break;
+	}
+    }
+}
+

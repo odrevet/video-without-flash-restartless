@@ -27,6 +27,5 @@ function update_module(event){
 
     var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
     prefManager.setCharPref("extensions.vwof.modules", s_modules);
-    
 }
 
