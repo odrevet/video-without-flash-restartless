@@ -48,7 +48,7 @@ var vwof= {
 		}
 	    }
 	    catch(err){
-		cw.alert("vwof plugin, exception in parser "+key_parser+": "+err);
+		Components.utils.reportError("vwof plugin, exception in "+key_parser+": "+err);
 	    };
 
 	    //official web sites do not embed several videos, so don't use other parsers

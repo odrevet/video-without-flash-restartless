@@ -1,7 +1,4 @@
-if("undefined" == typeof(vwofChrome)){
-    var vwofChrome = {};
-}
-vwofChrome.youtubeUtils = {
+youtubeUtils = {
     toggle_yt_wide:function (event){
 	var c = event.target.hasAttribute('checked')?1:0;
 	var wide;
