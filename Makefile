@@ -1,8 +1,7 @@
-PROJECT="my-addon"
+PROJECT="vwof"
 PWD=`pwd`
 BUILD="build"
-VERSION=`git describe --tags`
-NAME="${PROJECT}-${VERSION}.xpi"
+NAME="${PROJECT}.xpi"
 XPI="${PWD}/${BUILD}/${NAME}"
 
 .PHONY: latest xpi clean
