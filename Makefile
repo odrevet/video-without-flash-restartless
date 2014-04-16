@@ -9,7 +9,7 @@ XPI="${PWD}/${BUILD}/${NAME}"
 latest:
 	@echo "Building latest '${XPI}'..."
 	@mkdir -p ${BUILD}
-	@zip -r ${XPI} * -x "${BUILD}/*" -x "Makefile" -x ".git/*"
+	@zip -r ${XPI} * -x "${BUILD}/*" -x "configure" -x "Makefile" -x ".git/*"
 
 xpi:
 	@echo "Building '${XPI}'..."
