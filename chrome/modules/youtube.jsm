@@ -53,8 +53,10 @@ var parser = {
     parse_embed: function(cw) {
 	var video_info = [];
 	var player;
-	const REGEX_VIDEO_ID_IFRAME = /embed\/([\w\-]{11})/;
+
+	//Search embed videos in iframes
 	const XPATH_PLAYER_IFRAME = "//iframe[contains(@src, '"+this.BASE_URI+"/embed')]";
+	const REGEX_VIDEO_ID_IFRAME = /embed\/([\w\-]{11})/;
 	
 	var xp_res_player = cw.document.evaluate(XPATH_PLAYER_IFRAME, cw.document, null, cw.XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
 
@@ -66,6 +68,22 @@ var parser = {
 
 	    var parsed_array = this.parse_data(data);
 	    parsed_array['player'] = player;
+	    video_info.push(parsed_array);
+	}
+
+	//search embed videos in objects
+	const XPATH_OBJECT_PARAM = "//param[contains(@value, 'http://www.youtube.com/v/')]";
+	const REGEX_VIDEO_ID_OBJECT_PARAM = /v\/([\w\-]{11})/;
+
+	xp_res_player = cw.document.evaluate(XPATH_OBJECT_PARAM, cw.document, null, cw.XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+
+	while (player = xp_res_player.iterateNext()) {
+	    var id = player.value.match(REGEX_VIDEO_ID_OBJECT_PARAM)[1];
+	    var api_video_uri = this.API_GET_VIDEO.replace('VIDEO_ID', id);
+	    var data = utils.get(api_video_uri);
+
+	    var parsed_array = this.parse_data(data);
+	    parsed_array['player'] = player.parentNode;
 	    video_info.push(parsed_array);
 	}
 	
