@@ -1,3 +1,3 @@
-content vwof chrome/content contentaccessible=yes
+content vwof content/ contentaccessible=yes
 locale  vwof en-US locale/en-US/
 skin    vwof classic/1.0 skin/

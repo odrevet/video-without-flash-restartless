@@ -28,7 +28,6 @@ function init(window){
     //keyboard shortcut
     let key = doc.createElement('key');
     key.setAttribute('id', 'vwof-key');
-    key.setAttribute('oncommand', 'void(0);');
     key.addEventListener("command", function (){oncommand_detect_video(window);});
     key.setAttribute('key', 'w');
     key.setAttribute('modifiers', 'alt');
