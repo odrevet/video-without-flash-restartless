@@ -1,4 +1,3 @@
-
 var parser = {
     BASE_URI : 'video.fc2.com',
     API_GET_VIDEO:'http://video.fc2.com/ginfo.php?upid=UPID&mimi=MIMI&gk=GK',
@@ -6,9 +5,8 @@ var parser = {
     
     parse_site:function(cw) {
 	const REGEX_VIDEO_ID_SITE = /content\/(\w+)/;
-	const XPATH_VIDEO_TYPE = '/html/head/meta[@property="og:video:type"]/@content';
 	const XPATH_VIDEO_IMG = '/html/head/meta[@property="og:image"]/@content';
-	var doc = cw.document;
+	const doc = cw.document;
 	var video_info = [];
 	var id;
 
@@ -60,13 +58,11 @@ var parser = {
 	//get thumbnail
 	var video_img = doc.evaluate(XPATH_VIDEO_IMG, doc, null,
 				     cw.XPathResult.STRING_TYPE, null).stringValue;
-        var video_type = doc.evaluate(XPATH_VIDEO_TYPE, doc, null,
-				     cw.XPathResult.STRING_TYPE, null).stringValue;
 
 	video_info.push({
 	    'player':player,
 	    'video_img': video_img,
-	    'videos': [ {'format':video_type, 'url':url} ]
+	    'videos': [ {'quality': 'medium', 'format':'flv', 'url':url} ]
 	});
 
 	return video_info;

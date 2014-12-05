@@ -1,13 +1,13 @@
 .vwof_player {
     position:relative;
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     border: 1px #000;
     background-color: #000;
     background-size: 100%;
-    background-repeat:no-repeat;
-    background-size:contain;
-    background-position: center top;    
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center top;
     display:block;
     cursor:pointer;
     z-index:1;
@@ -18,7 +18,8 @@
 }
 
 .vwof_player:hover{
-    opacity:1.0;   
+    opacity:1.0;
+    transition:.2s;
 }
 
 .vwof_video_info, .vwof_player span, .vwof_player a{
@@ -26,7 +27,6 @@
     text-shadow: 1em 1em 5em black;
     box-shadow: 0 5px 10px #222;
 }
-
 
 .vwof_player span, .vwof_player a{
     position:absolute;
@@ -61,11 +61,3 @@
     border-radius: 0.2;
     color: #FFF;  
 }
-
-.vwof_frame{
-    height:100%;
-    width:100%;
-    border:none;
-    z-index:1;
-}
-

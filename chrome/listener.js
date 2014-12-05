@@ -1,18 +1,13 @@
 var windowListener = {
     ignoreFrames:true,
-    //DO NOT EDIT HERE
     onOpenWindow: function (aXULWindow) {
-	// Wait for the window to finish loading
 	let aDOMWindow = aXULWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowInternal || Ci.nsIDOMWindow);
 	aDOMWindow.addEventListener("load", function () {
 	    aDOMWindow.removeEventListener("load", arguments.callee, false);
 	    windowListener.loadIntoWindow(aDOMWindow, aXULWindow);
 	}, false);
     },
-    onCloseWindow: function (aXULWindow) {},
-    onWindowTitleChange: function (aXULWindow, aNewTitle) {},
     register: function () {
-	// Load into any existing windows
 	let XULWindows = Services.wm.getXULWindowEnumerator(null);
 	while (XULWindows.hasMoreElements()) {
 	    let aXULWindow = XULWindows.getNext();
@@ -33,7 +28,6 @@ var windowListener = {
 	//Stop listening so future added windows dont get this attached
 	Services.wm.removeListener(windowListener);
     },
-    //END - DO NOT EDIT HERE
     loadIntoWindow: function (aDOMWindow, aXULWindow) {
 	if (!aDOMWindow) {
 	    return;
@@ -41,11 +35,9 @@ var windowListener = {
 	if (aDOMWindow.gBrowser) {
 	    aDOMWindow.gBrowser.addEventListener('DOMContentLoaded', listenPageLoad, false);
 	    if (aDOMWindow.gBrowser.tabContainer) {
-		//has tabContainer
 		//start - go through all tabs in this window we just added to
 		var tabs = aDOMWindow.gBrowser.tabContainer.childNodes;
 		for (var i = 0; i < tabs.length; i++) {
-		    Cu.reportError('DOING tab: ' + i);
 		    var tabBrowser = tabs[i].linkedBrowser;
 		    var win = tabBrowser.contentWindow;
 		    loadIntoContentWindowAndItsFrames(win);
@@ -56,8 +48,6 @@ var windowListener = {
 		var win = aDOMWindow.gBrowser.contentWindow;
 		loadIntoContentWindowAndItsFrames(win);
 	    }
-	} else {
-	    //window does not have gBrowser
 	}
     },
     unloadFromWindow: function (aDOMWindow, aXULWindow) {
@@ -159,9 +149,8 @@ var PrefObserver = {
     observe: function(aSubject, aTopic, aData) {
 	switch (aData) {
 	case "modules":
-	    vwof.reload_modules();
+	    vwof.set_parsers_activation();
 	    break;
 	}
     }
 }
-

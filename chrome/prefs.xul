@@ -1,28 +1,43 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<prefwindow id="vwofPrefWindow" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<prefwindow id="vwofPrefWindow" 
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <prefpane id="vwof_pref_general" label="General">
-    <script type="application/x-javascript" src="chrome://vwof/content/youtube_utils.js" />  
+  
     <preferences>
-      <preference id="extensions.vwof.activate_onload" name="extensions.vwof.activate_onload" type="bool"/>
-      <preference id="full-screen-api.approval-required" name="full-screen-api.approval-required" type="bool"/>
+      <preference id="extensions.vwof.activate_onload" 
+                  name="extensions.vwof.activate_onload"
+                  type="bool"/>
+      <preference id="plugins.notifyMissingFlash" 
+                  name="plugins.notifyMissingFlash" 
+                  type="bool"/>
+      <preference id="full-screen-api.approval-required"
+                  name="full-screen-api.approval-required" 
+                  type="bool"/>
     </preferences>
 
-    <!--checkbox label="Activate on page load" preference="extensions.vwof.activate_onload"/>
-    <checkbox label="Enable missing flash plugin warnings" preference="plugins.notifyMissingFlash"/-->
-    <checkbox label="Show approval message when fullscreen" preference="full-screen-api.approval-required"/>
-    <checkbox id="vwof_yt_wide" label="YouTube large player" oncommand="youtubeUtils.toggle_yt_wide(event)"/>    
+    <checkbox label="Detect videos on page load" 
+              preference="extensions.vwof.activate_onload"/>
+    <checkbox label="Enable missing flash plugin warnings" 
+              preference="plugins.notifyMissingFlash"/>
+    <checkbox label="Enable approval message when fullscreen" 
+              preference="full-screen-api.approval-required"/>
     
   </prefpane>
 
   <prefpane id="vwof_pref_prefered_format" label="Prefered format">
     <preferences>
-      <preference id="extensions.vwof.prefered_quality" name="extensions.vwof.prefered_quality" type="string" />
-      <preference id="extensions.vwof.prefered_format" name="extensions.vwof.prefered_format" type="string" />
+      <preference id="extensions.vwof.prefered_quality" 
+                  name="extensions.vwof.prefered_quality" 
+                  type="string" />
+      <preference id="extensions.vwof.prefered_format" 
+                  name="extensions.vwof.prefered_format" 
+                  type="string" />
     </preferences>
     
     <label value="Prefered format" control="prefered_format" />
-    <menulist id="prefered_format" preference="extensions.vwof.prefered_format" preference-editable="true">
+    <menulist id="prefered_format" preference="extensions.vwof.prefered_format" 
+              preference-editable="true">
       <menupopup>
 	<menuitem label="webm" value="webm"/>
 	<menuitem label="mp4" value="mp4"/>
@@ -32,7 +47,8 @@
     </menulist>
 
     <label value="Prefered quality" control="prefered_quality" />    
-    <menulist id="prefered_quality" preference="extensions.vwof.prefered_quality" preference-editable="true">
+    <menulist id="prefered_quality" preference="extensions.vwof.prefered_quality"
+              preference-editable="true">
       <menupopup>
 	<menuitem label="hd1080" value="hd1080"/>
 	<menuitem label="hd720" value="hd720"/>
@@ -44,12 +60,19 @@
   </prefpane>
   
   <prefpane id="vwof_pref_modules" label="modules">
+    <script type="application/x-javascript" src="chrome://vwof/content/browserOverlay.js" />
+    <script type="application/x-javascript" src="chrome://vwof/content/youtube_utils.js" />
+
     <preferences>
       <preference id="extensions.vwof.modules" name="extensions.vwof.modules" type="string"/>
     </preferences>
+ 
+    <checkbox id="vwof_yt_wide" label="YouTube theater mode" 
+              oncommand="vwofChrome.youtubeUtils.toggle_yt_wide(event)"/>
   </prefpane>
   
-  <script src="youtube_utils.js"/> 
+  <script src="youtube_utils.js"/>
+  <script src="vwof.js"/> 
   <script src="list_modules.js"/>
 
 </prefwindow>

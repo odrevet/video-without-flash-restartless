@@ -1,50 +1,46 @@
 var vwof= {
     parsers:{},   //hash of the parsers (loaded from jsm modules)
+    parser_name:["blip", "dailymotion", "FC2", "HTML5", "niconico", "youtube", "ScreenWaveMedia"],
 
     /**
        Load modules listed in the extensions.vwof.modules pref variable to this.parsers hash
     */
     load_modules:function(){
-	Components.utils.import('resource://gre/modules/Services.jsm');
-	var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-	var modules_list = prefManager.getCharPref("extensions.vwof.modules");
-	var modules = JSON.parse(modules_list);
-
-	for(var key_parser in modules){
-	    if(modules[key_parser] == 1){
-		let context = {};
-		let res = 'chrome://vwof/content/modules/'+key_parser+'.jsm';
-		Services.scriptloader.loadSubScript(res, context, "UTF-8");
-		context.name = key_parser;
-		this.parsers[key_parser] = context;
-	    }
+	for(var i=0;i<this.parser_name.length;i++){
+            let key_parser = this.parser_name[i];
+	    let context = {};
+	    let res = 'chrome://vwof/content/modules/'+key_parser+'.jsm';
+	    Services.scriptloader.loadSubScript(res, context, "UTF-8");
+	    this.parsers[key_parser] = context;
 	}
     },
-    reload_modules:function(){
-	try{	    
-	    // clear the previously loaded parsers
-	    delete this.parsers;
-	    this.parsers = {};
+    set_parsers_activation:function(){
+	//check in the preferences : activated a parser on page load or not
+	Components.utils.import("resource://gre/modules/Services.jsm");
+	var prefManager = Components.classes["@mozilla.org/preferences-service;1"]
+	    .getService(Components.interfaces.nsIPrefBranch);
 
-	    //clear the cache from where the resources are loaded
-	    Components.utils.import('resource://gre/modules/Services.jsm');	    
-	    Services.obs.notifyObservers(null, "startupcache-invalidate", null)
+	var modules_list = prefManager.getCharPref("extensions.vwof.modules");
+	var modules = JSON.parse(modules_list);  //parser / value from the preferences
 
-	    //finally load the modules
-	    this.load_modules();
+	for(var key_parser in this.parsers){
+ 	    var parser = this.parsers[key_parser].parser;
+
+	    //if a pref is defined for this parser
+	    if(modules[key_parser])
+		parser['activated'] = modules[key_parser]?true:false;
+	    else 
+		parser['activated'] = false;
 	}
-	catch(err){
-	    Components.utils.reportError("vwof exception: "+err);
-	};	
     },    
     getVideoInfo:function (cw) {
 	var video_info = [];	// array of video_data
 	var has_parsed_site = false;
 	
 	for(var key_parser in this.parsers){
-	    
   	    try{
 		var parser = this.parsers[key_parser].parser;
+		if(parser['activated'] != true)continue;
 		var video_data = [];  //array of video links with quality
 
 		//if the parser has a URI and it's the current location
@@ -63,7 +59,8 @@ var vwof= {
 			video_data[i]['source'] = this.parsers[key_parser].name;
 		    }
 		    
-		    video_info = video_info.concat(video_data);    //concat the chunks of video(s) from this parser
+                    //concat the chunks of video(s) from this parser
+		    video_info = video_info.concat(video_data);
 		}
 	    }
 	    catch(err){
@@ -78,19 +75,14 @@ var vwof= {
     },
     
     detectVideo:function(cw) {
-
 	var video_info = this.getVideoInfo(cw);
 
 	for (var i = 0; i < video_info.length; i++) {
 	    if(video_info[i]['player']){
     		var replace_location = video_info[i]['player'];
-		var player = vwofPlayer.create_player(video_info[i], cw);
+		var player = vwofPlayer.create_video_selector(video_info[i], cw);
 		var replace_parent = replace_location.parentNode;
 		replace_parent.replaceChild(player, replace_location);
-	    }
-	    else{
-		var j = vwofPlayer.find_prefered_video(video_info[i].videos);
-		gBrowser.selectedTab = gBrowser.addTab(video_info[i].videos[j].url);
 	    }
 	}
     }    

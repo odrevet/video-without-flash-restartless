@@ -1,37 +1,65 @@
 const {interfaces: Ci, utils: Cu} = Components;
 Cu.import('resource://gre/modules/Services.jsm');
+Cu.import('resource://gre/modules/NetUtil.jsm');
 
 const PREF_BRANCH = "extensions.vwof.";
-const PREFS = {
-    "modules":'{"HTML5":1, "springboard":1, "blip":1, "youtube":1, "dew":1, "SWM":1, "dailymotion":1, "ustream":1, "niconico":1, "FC2":1}',
-    "prefered_quality":'medium',
-    "prefered_format":'webm'
-};
-
-function setDefaultPrefs() {
-    let branch = Services.prefs.getDefaultBranch(PREF_BRANCH);
-    for (let [key, val] in Iterator(PREFS)) {
-        branch.setCharPref(key, val);
-    }
-}
 
 function listenPageLoad(event) {
     var cw = event.originalTarget.defaultView;
     if (cw.frameElement && windowListener.ignoreFrames) {
 	return;  //dont want to watch frames
     }
-    vwof.detectVideo(cw);
+    
+    var prefManager = Components.classes["@mozilla.org/preferences-service;1"].
+                      getService(Components.interfaces.nsIPrefBranch);
+    var activate_onload = prefManager.getBoolPref(PREF_BRANCH+"activate_onload");
+    if(activate_onload){vwof.detectVideo(cw);}
+}
+
+function oncommand_detect_video(window){
+    //window is browser.xul. Pass the contentWindow of the document
+    vwof.detectVideo(window.gBrowser.contentDocument.defaultView);
+}
+
+function init(window){
+    let doc = window.document;
+    keyset = doc.getElementById('mainKeyset');
+
+    //keyboard shortcut
+    let key = doc.createElement('key');
+    key.setAttribute('id', 'vwof-key');
+    key.setAttribute('oncommand', 'void(0);');
+    key.addEventListener("command", function (){oncommand_detect_video(window);});
+    key.setAttribute('key', 'w');
+    key.setAttribute('modifiers', 'alt');
+    keyset.appendChild(key);
+    keyset.parentElement.appendChild(keyset);
 }
 
 function startup(aData, aReason) {
-    setDefaultPrefs();    
+    Services.scriptloader.loadSubScript("chrome://vwof/content/prefs.js")
     Services.scriptloader.loadSubScript('chrome://vwof/content/vwof.js');    
     Services.scriptloader.loadSubScript('chrome://vwof/content/player.js');
     Services.scriptloader.loadSubScript('chrome://vwof/content/utils.js');
+    Services.scriptloader.loadSubScript('chrome://vwof/content/youtube_utils.js');    
     Services.scriptloader.loadSubScript('chrome://vwof/content/listener.js');
     windowListener.register();
     PrefObserver.register();
+
+    setDefaultPref(PREF_BRANCH, "modules", '{"HTML5":1, "blip":1, "youtube":1, "dailymotion":1, "niconico":1, "FC2":1, "ScreenWaveMedia":1}');
+    setDefaultPref(PREF_BRANCH, "prefered_quality", 'medium');
+    setDefaultPref(PREF_BRANCH, "prefered_format", 'webm');
+    setDefaultPref(PREF_BRANCH, "activate_onload", true);
+
+    // Load into any existing windows
+    let wm = Services.wm,
+    enumerator = wm.getEnumerator('navigator:browser');
+    while (enumerator.hasMoreElements()) {
+        init(enumerator.getNext().QueryInterface(Ci.nsIDOMWindow));
+    }
+
     vwof.load_modules();
+    vwof.set_parsers_activation();
 }
 
 function shutdown(aData, aReason) {
