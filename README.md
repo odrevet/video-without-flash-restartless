@@ -44,7 +44,7 @@ By default the video are detected when a page load, you can disable this behavio
 
 * VLC plugin : The video crashes when a video is paused when played with the vlc web plugin.
 
-<b> How does it works </b> 
+<b> How does it work? </b> 
 This extension fetch the direct link to videos using regular expression, XPath, and DOM. When available,  a picture and a select control are displayed to read the video with firefox, using the firefox internal HTML5 compliant media player or a plugin like vlc or mplayer if the user had installed it. 
 
 Each media provider is handled by a "parser". Javascript modules (.jsm) that are loaded at startup. The extension can fairly easy be extended due to it modular approache, as new media provider can be added by implementing a new jsm file. 
