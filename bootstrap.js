@@ -29,6 +29,7 @@ function init(window){
     let key = doc.createElement('key');
     key.setAttribute('id', 'vwof-key');
     key.addEventListener("command", function (){oncommand_detect_video(window);});
+    key.setAttribute("oncommand", "//");
     key.setAttribute('key', 'w');
     key.setAttribute('modifiers', 'alt');
     keyset.appendChild(key);
