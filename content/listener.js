@@ -61,7 +61,6 @@ var windowListener = {
 		//start - go through all tabs in this window we just added to
 		var tabs = aDOMWindow.gBrowser.tabContainer.childNodes;
 		for (var i = 0; i < tabs.length; i++) {
-		    Cu.reportError('DOING tab: ' + i);
 		    var tabBrowser = tabs[i].linkedBrowser;
 		    var win = tabBrowser.contentWindow;
 		    unloadFromContentWindowAndItsFrames(win);
@@ -85,13 +84,7 @@ function loadIntoContentWindowAndItsFrames(theWin) {
     for (var j = 0; j < frames.length; j++) {
 	winArr.push(frames[j].window);
     }
-    Cu.reportError('# of frames in tab: ' + frames.length);
     for (var j = 0; j < winArr.length; j++) {
-	if (j == 0) {
-	    Cu.reportError('**checking win: ' + j + ' location = ' + winArr[j].document.location);
-	} else {
-	    Cu.reportError('**checking frame win: ' + j + ' location = ' + winArr[j].document.location);
-	}
 	var doc = winArr[j].document;
 	//START - edit below here
 
@@ -108,13 +101,8 @@ function unloadFromContentWindowAndItsFrames(theWin) {
     for (var j = 0; j < frames.length; j++) {
 	winArr.push(frames[j].window);
     }
-    Cu.reportError('# of frames in tab: ' + frames.length);
+
     for (var j = 0; j < winArr.length; j++) {
-	if (j == 0) {
-	    Cu.reportError('**checking win: ' + j + ' location = ' + winArr[j].document.location);
-	} else {
-	    Cu.reportError('**checking frame win: ' + j + ' location = ' + winArr[j].document.location);
-	}
 	var doc = winArr[j].document;
 	//START - edit below here
 	if (this.ignoreFrames) {
