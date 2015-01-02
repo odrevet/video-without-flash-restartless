@@ -24,7 +24,8 @@ By default the video are detected when a page load, you can disable this behavio
 * You experienced some lag or bad CPU performance using flash
 * You only use flash to watch videos, and do not want to install a non-free packages on your linux station (this extension is released under the GPL)
 
-<b> Pro tips </b>
+**Pro tips**
+
 *To read MP4 videos you must install a media plugin like vlc-web-plugin or gecko-mplayer. Under Windows the vlc web plugin can be install when running the vlc install exe. 
 
 * The video can be save with a "right click / save as" on the "open in a new tab"  link.
@@ -32,7 +33,6 @@ By default the video are detected when a page load, you can disable this behavio
 * Numerous options in the preference pane : select preferred format / quality when available, disable modules. 
 
 **Known bugs**
-(unfortunately these are upstream bugs, nothing I can do about it)
 
 * YouTube : The video area is not reloading when clicking on a suggested video link. After clicking on such a link, and no ALT-w command.
 
