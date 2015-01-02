@@ -113,27 +113,25 @@ will be added in the player displaying the format and quality
 ```javascript
 video_info = 
 [
-{
-//DOM where the video selector / video tag will be embed
-'player':,
+    {
+        //DOM where the video selector / video tag will be embed
+        'player':,
 
-//string link to the preview picture (or black background)
-'video_img':,
+        //string link to the preview picture (or black background)
+        'video_img':,
 
-videos = 
-[
-{
-//quality of the video (low, medium, hd720, hd1080)
-'quality':,
+         videos = 
+            [
+                {
+                 //quality of the video (low, medium, hd720, hd1080)
+                'quality':,
 
-//format of the video (webm, mp4, flv, ...)
-'format':,
+                //format of the video (webm, mp4, flv, ...)
+                'format':,
 
-//direct link to the video
-'url':
-}
+                //direct link to the video
+                'url':
+            }
+            ];
+    }
 ];
-}
-];
-
-
