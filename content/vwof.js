@@ -56,7 +56,7 @@ var vwof= {
 		if(video_data.length >= 1){		    
 		    //set the source (name of the parser)
 		    for(var i=0;i < video_data.length;i++){
-			video_data[i]['source'] = this.parsers[key_parser].name;
+			video_data[i]['source'] = key_parser
 		    }
 		    
                     //concat the chunks of video(s) from this parser
