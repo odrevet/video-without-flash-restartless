@@ -17,12 +17,13 @@ vwofPlayer = {
     video_selector_click:function(event){
 	const doc = event.originalTarget.ownerDocument;
 
-	//get the currently selected video link in the video selector
+	//get the currently selected video link from the video selector
+        //the open in a new tab link is the direct link to the video
 	var l=doc.getElementById('vwof_link_new_tab_'+this.id);
 	var url = l.href;
 
 	//create the video element
-	node_playback = doc.createElement('video');
+	var node_playback = doc.createElement('video');
 	node_playback.setAttribute('height', '100%');
 	node_playback.setAttribute('width', '100%');
 	node_playback.setAttribute('controls', 'controls');
@@ -104,8 +105,10 @@ vwofPlayer = {
 
 	    //add the options to the selectbox
 	    for(var i=0;i<video_info.videos.length;i++){
+                var url = video_info.videos[i].url;
+
 		var node_option = doc.createElement('option');
-		node_option.setAttribute('value', video_info.videos[i].url);
+		node_option.setAttribute('value', url);
 		
 		var format = video_info.videos[i].format ? video_info.videos[i].format : '';
 		var quality = video_info.videos[i].quality ? video_info.videos[i].quality : '';
@@ -114,7 +117,7 @@ vwofPlayer = {
 		if(i == prefered_index){
 		    node_option.setAttribute('selected', 'true');
 		}
-		
+
 		node_option.appendChild(node_option_content);
 		node_select.appendChild(node_option);
 	    }

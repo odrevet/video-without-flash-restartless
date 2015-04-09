@@ -60,18 +60,12 @@
   </prefpane>
   
   <prefpane id="vwof_pref_modules" label="modules">
-    <script type="application/x-javascript" src="chrome://vwof/content/browserOverlay.js" />
-    <script type="application/x-javascript" src="chrome://vwof/content/youtube_utils.js" />
-
     <preferences>
       <preference id="extensions.vwof.modules" name="extensions.vwof.modules" type="string"/>
     </preferences>
  
-    <checkbox id="vwof_yt_wide" label="YouTube theater mode" 
-              oncommand="vwofChrome.youtubeUtils.toggle_yt_wide(event)"/>
   </prefpane>
   
-  <script src="youtube_utils.js"/>
   <script src="vwof.js"/> 
   <script src="list_modules.js"/>
 

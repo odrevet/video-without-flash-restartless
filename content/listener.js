@@ -119,14 +119,9 @@ function unloadFromContentWindowAndItsFrames(theWin) {
 */
 var PrefObserver = {
     register: function() {
-	// First we'll need the preference services to look for preferences.
 	var prefService = Components.classes["@mozilla.org/preferences-service;1"]
 	    .getService(Components.interfaces.nsIPrefService);
-
-	// For this.branch we ask for the preferences
 	this.branch = prefService.getBranch("extensions.vwof.");
-
-	// Finally add the observer.
 	this.branch.addObserver("", this, false);
     },
 

@@ -1,7 +1,3 @@
-var checkbox_wide = document.getElementById("vwof_yt_wide");
-var wide = youtubeUtils.yt_is_wide();
-checkbox_wide.setAttribute("checked", wide);
-
 var prefPane = document.getElementById('vwof_pref_modules');
 var s_modules = document.getElementById('extensions.vwof.modules').value;
 modules = JSON.parse(s_modules);
