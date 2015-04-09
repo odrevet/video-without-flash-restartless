@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
 <prefwindow id="vwofPrefWindow" 
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <prefpane id="vwof_pref_general" label="General">
-  
     <preferences>
       <preference id="extensions.vwof.activate_onload" 
                   name="extensions.vwof.activate_onload"
@@ -22,7 +22,7 @@
               preference="plugins.notifyMissingFlash"/>
     <checkbox label="Enable approval message when fullscreen" 
               preference="full-screen-api.approval-required"/>
-    
+
   </prefpane>
 
   <prefpane id="vwof_pref_prefered_format" label="Prefered format">
@@ -34,15 +34,15 @@
                   name="extensions.vwof.prefered_format" 
                   type="string" />
     </preferences>
-    
+
     <label value="Prefered format" control="prefered_format" />
     <menulist id="prefered_format" preference="extensions.vwof.prefered_format" 
               preference-editable="true">
       <menupopup>
-	<menuitem label="webm" value="webm"/>
-	<menuitem label="mp4" value="mp4"/>
-	<menuitem label="avi" value="avi"/>
-	<menuitem label="flv" value="flv"/>	
+        <menuitem label="webm" value="webm"/>
+        <menuitem label="mp4" value="mp4"/>
+        <menuitem label="avi" value="avi"/>
+        <menuitem label="flv" value="flv"/>	
       </menupopup>
     </menulist>
 
@@ -50,24 +50,22 @@
     <menulist id="prefered_quality" preference="extensions.vwof.prefered_quality"
               preference-editable="true">
       <menupopup>
-	<menuitem label="hd1080" value="hd1080"/>
-	<menuitem label="hd720" value="hd720"/>
-	<menuitem label="medium" value="medium"/>
-	<menuitem label="low" value="low"/>	
+        <menuitem label="hd1080" value="hd1080"/>
+        <menuitem label="hd720" value="hd720"/>
+        <menuitem label="medium" value="medium"/>
+        <menuitem label="low" value="low"/>	
       </menupopup>
     </menulist>
-    
+
   </prefpane>
-  
+
   <prefpane id="vwof_pref_modules" label="modules">
     <preferences>
       <preference id="extensions.vwof.modules" name="extensions.vwof.modules" type="string"/>
-    </preferences>
- 
+    </preferences> 
   </prefpane>
-  
+
   <script src="vwof.js"/> 
   <script src="list_modules.js"/>
 
 </prefwindow>
-

@@ -6,7 +6,7 @@ Cu.import('resource://gre/modules/NetUtil.jsm');
 const PREF_BRANCH = "extensions.vwof.";
 
 var menuId;
-///
+
 function listenPageLoad(event) {
     var cw = event.originalTarget.defaultView;
     if (cw.frameElement && windowListener.ignoreFrames) {
@@ -38,9 +38,6 @@ function init(window){
 
 
 function loadIntoWindow(window) {
-    init(window);
-    if (!window)
-        return;
 
     menuId = window.NativeWindow.menu.add("Detect Videos", null, function() {
         vwof.detectVideo(window.content);
@@ -48,8 +45,9 @@ function loadIntoWindow(window) {
 }
 
 function unloadFromWindow(window) {
-    if (!window)
+    if (!window || menuId == undefined)
         return;
+
     window.NativeWindow.menu.remove(menuId);
 }
 
@@ -89,7 +87,14 @@ function startup(aData, aReason) {
     let windows = Services.wm.getEnumerator("navigator:browser");
     while (windows.hasMoreElements()) {
         let domWindow = windows.getNext().QueryInterface(Ci.nsIDOMWindow);
-        loadIntoWindow(domWindow);
+        if (domWindow.NativeWindow === undefined){
+            //Desktop, init keyboard shortcut
+            init(domWindow);
+        }
+        else{
+            //Mobile, init UI shortcut
+            loadIntoWindow(domWindow);
+        }
     }
 
     // Load into any new windows
