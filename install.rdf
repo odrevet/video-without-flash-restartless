@@ -23,6 +23,7 @@
     <!-- A link to the add-on home page to display in the user interface. -->
     <em:homepageURL>http://mozilla.org</em:homepageURL>
 
+    <!-- Options. -->
     <em:optionsURL>chrome://vwof/content/prefs.xul</em:optionsURL>    
 
     <!-- An integer value representing the type of add-on. -->

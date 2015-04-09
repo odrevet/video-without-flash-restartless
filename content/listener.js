@@ -34,6 +34,7 @@ var windowListener = {
 	}
 	if (aDOMWindow.gBrowser) {
 	    aDOMWindow.gBrowser.addEventListener('DOMContentLoaded', listenPageLoad, false);
+            init(aDomWindow);
 	    if (aDOMWindow.gBrowser.tabContainer) {
 		//start - go through all tabs in this window we just added to
 		var tabs = aDOMWindow.gBrowser.tabContainer.childNodes;
@@ -56,6 +57,7 @@ var windowListener = {
 	}
 	if (aDOMWindow.gBrowser) {
 	    aDOMWindow.gBrowser.removeEventListener('DOMContentLoaded', listenPageLoad, false);
+            init(aDomWindow);
 	    if (aDOMWindow.gBrowser.tabContainer) {
 		//has tabContainer
 		//start - go through all tabs in this window we just added to

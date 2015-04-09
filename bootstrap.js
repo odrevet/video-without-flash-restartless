@@ -38,10 +38,9 @@ function init(window){
 
 
 function loadIntoWindow(window) {
+    init(window);
     if (!window)
         return;
-
-    init(window);
 
     menuId = window.NativeWindow.menu.add("Detect Videos", null, function() {
         vwof.detectVideo(window.content);
