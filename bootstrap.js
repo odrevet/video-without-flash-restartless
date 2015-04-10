@@ -7,19 +7,15 @@ const PREF_BRANCH = "extensions.vwof.";
 
 var menuId;
 
-function listenPageLoad(event) {
-    var cw = event.originalTarget.defaultView;
-    if (cw.frameElement && windowListener.ignoreFrames) {
-	return;  //dont want to watch frames
-    }
-    
+function onPageLoad(event) {
+    var cw = event.originalTarget.defaultView;    
     var prefManager = Components.classes["@mozilla.org/preferences-service;1"].
                       getService(Components.interfaces.nsIPrefBranch);
     var activate_onload = prefManager.getBoolPref(PREF_BRANCH+"activate_onload");
     if(activate_onload){vwof.detectVideo(cw);}
 }
 
-function init(window){
+function init_keyboard_shortcut(window){
     let doc = window.document;
     keyset = doc.getElementById('mainKeyset');
 
@@ -36,45 +32,20 @@ function init(window){
     keyset.parentElement.appendChild(keyset);
 }
 
-
-function loadIntoWindow(window) {
-
-    menuId = window.NativeWindow.menu.add("Detect Videos", null, function() {
-        vwof.detectVideo(window.content);
-    });
+function isAndroid() {
+  return Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime)
+    .widgetToolkit.toLowerCase() == "android"
 }
-
-function unloadFromWindow(window) {
-    if (!window || menuId == undefined)
-        return;
-
-    window.NativeWindow.menu.remove(menuId);
-}
-
-var windowListenerUI = {
-    onOpenWindow: function(aWindow) {
-        // Wait for the window to finish loading
-        let domWindow = aWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowInternal || Ci.nsIDOMWindow);
-        domWindow.addEventListener("UIReady", function onLoad() {
-            domWindow.removeEventListener("UIReady", onLoad, false);
-            loadIntoWindow(domWindow);
-        }, false);
-    },
-    
-    onCloseWindow: function(aWindow) {},
-    onWindowTitleChange: function(aWindow, aTitle) {}
-};
 
 function startup(aData, aReason) {
     Services.scriptloader.loadSubScript("chrome://vwof/content/prefs.js")
     Services.scriptloader.loadSubScript('chrome://vwof/content/vwof.js');    
     Services.scriptloader.loadSubScript('chrome://vwof/content/player.js');
     Services.scriptloader.loadSubScript('chrome://vwof/content/utils.js');
-
     Services.scriptloader.loadSubScript('chrome://vwof/content/listener.js');
-    windowListener.register();
-    PrefObserver.register();
 
+    //prefs
+    PrefObserver.register();
     setDefaultPref(PREF_BRANCH, "modules", '{"HTML5":0, "blip":1, "dailymotion":1, "niconico":1, "FC2":1, "ScreenWaveMedia":1}');
     setDefaultPref(PREF_BRANCH, "prefered_quality", 'medium');
     setDefaultPref(PREF_BRANCH, "prefered_format", 'webm');
@@ -87,18 +58,27 @@ function startup(aData, aReason) {
     let windows = Services.wm.getEnumerator("navigator:browser");
     while (windows.hasMoreElements()) {
         let domWindow = windows.getNext().QueryInterface(Ci.nsIDOMWindow);
-        if (domWindow.NativeWindow === undefined){
-            //Desktop, init keyboard shortcut
-            init(domWindow);
+        if (!isAndroid()){
+            //Desktop
+            //init keyboard shortcut
+            init_keyboard_shortcut(domWindow);
         }
         else{
             //Mobile, init UI shortcut
             loadIntoWindow(domWindow);
+
+            //listen for page load
+            domWindow.BrowserApp.deck.addEventListener("load", onPageLoad, true);
         }
     }
 
     // Load into any new windows
-    Services.wm.addListener(windowListenerUI);
+    if (!isAndroid()){
+        windowListener.register();
+    }
+    else{
+        Services.wm.addListener(windowListenerNative);
+    }
 }
 
 function shutdown(aData, aReason) {
@@ -108,7 +88,7 @@ function shutdown(aData, aReason) {
         return;
 
     // Stop listening for new windows
-    Services.wm.removeListener(windowListenerUI);
+    Services.wm.removeListener(windowListenerNative);
 
     // Unload from any existing windows
     let windows = Services.wm.getEnumerator("navigator:browser");

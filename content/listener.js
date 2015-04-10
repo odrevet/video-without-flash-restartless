@@ -1,3 +1,33 @@
+//Window listener for native UI (android)
+
+var windowListenerNative = {
+    onOpenWindow: function(aWindow) {
+        // Wait for the window to finish loading
+        let domWindow = aWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowInternal || Ci.nsIDOMWindow);
+        domWindow.addEventListener("UIReady", function onLoad() {
+            domWindow.removeEventListener("UIReady", onLoad, false);
+            loadIntoWindow(domWindow);
+        }, false);
+    },
+    
+    onCloseWindow: function(aWindow) {},
+    onWindowTitleChange: function(aWindow, aTitle) {}
+};
+
+function loadIntoWindow(window) {
+    menuId = window.NativeWindow.menu.add("Detect Videos", null, function() {
+        vwof.detectVideo(window.content);
+    });
+}
+
+function unloadFromWindow(window) {
+    if (!window || menuId == undefined)
+        return;
+
+    window.NativeWindow.menu.remove(menuId);
+}
+
+// Window listener for Desktop
 var windowListener = {
     ignoreFrames:true,
     onOpenWindow: function (aXULWindow) {
@@ -33,20 +63,18 @@ var windowListener = {
 	    return;
 	}
 	if (aDOMWindow.gBrowser) {
-	    aDOMWindow.gBrowser.addEventListener('DOMContentLoaded', listenPageLoad, false);
+	    aDOMWindow.gBrowser.addEventListener('DOMContentLoaded', onPageLoad, false);
 	    if (aDOMWindow.gBrowser.tabContainer) {
 		//start - go through all tabs in this window we just added to
 		var tabs = aDOMWindow.gBrowser.tabContainer.childNodes;
 		for (var i = 0; i < tabs.length; i++) {
 		    var tabBrowser = tabs[i].linkedBrowser;
 		    var win = tabBrowser.contentWindow;
-		    loadIntoContentWindowAndItsFrames(win);
 		}
 		//end - go through all tabs in this window we just added to
 	    } else {
 		//does not have tabContainer
 		var win = aDOMWindow.gBrowser.contentWindow;
-		loadIntoContentWindowAndItsFrames(win);
 	    }
 	}
     },
@@ -55,7 +83,7 @@ var windowListener = {
 	    return;
 	}
 	if (aDOMWindow.gBrowser) {
-	    aDOMWindow.gBrowser.removeEventListener('DOMContentLoaded', listenPageLoad, false);
+	    aDOMWindow.gBrowser.removeEventListener('DOMContentLoaded', onPageLoad, false);
 	    if (aDOMWindow.gBrowser.tabContainer) {
 		//has tabContainer
 		//start - go through all tabs in this window we just added to
@@ -63,54 +91,17 @@ var windowListener = {
 		for (var i = 0; i < tabs.length; i++) {
 		    var tabBrowser = tabs[i].linkedBrowser;
 		    var win = tabBrowser.contentWindow;
-		    unloadFromContentWindowAndItsFrames(win);
 		}
 		//end - go through all tabs in this window we just added to
 	    } else {
 		//does not have tabContainer
 		var win = aDOMWindow.gBrowser.contentWindow;
-		unloadFromContentWindowAndItsFrames(win);
 	    }
 	} else {
 	    //window does not have gBrowser
 	}
     }
 };
-/*end - windowlistener*/
-
-function loadIntoContentWindowAndItsFrames(theWin) {
-    var frames = theWin.frames;
-    var winArr = [theWin];
-    for (var j = 0; j < frames.length; j++) {
-	winArr.push(frames[j].window);
-    }
-    for (var j = 0; j < winArr.length; j++) {
-	var doc = winArr[j].document;
-	//START - edit below here
-
-	if (this.ignoreFrames) {
-	    break;
-	}
-	//END - edit above here
-    }
-}
-
-function unloadFromContentWindowAndItsFrames(theWin) {
-    var frames = theWin.frames;
-    var winArr = [theWin];
-    for (var j = 0; j < frames.length; j++) {
-	winArr.push(frames[j].window);
-    }
-
-    for (var j = 0; j < winArr.length; j++) {
-	var doc = winArr[j].document;
-	//START - edit below here
-	if (this.ignoreFrames) {
-	    break;
-	}
-	//END - edit above here
-    }
-}
 
 /**
    Listener that observe the prefs variables
