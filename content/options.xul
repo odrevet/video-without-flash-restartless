@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE mydialog SYSTEM "chrome://stylish/locale/overlay.dtd">
+
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <setting type="control"
+           title="List of modules"
+           desc="Display the list of modules to enable/disable">
+    <button id="extensions-vwof-module-list" 
+            label="Display Modules List" 
+            oncommand="window.open('chrome://vwof/content/prefs_modules_list.xul');"/>  
+  </setting>
+
+  <setting title="Detect videos on page load"
+           desc="If checked, the playable video source will be detected when the page load"
+           pref="extensions.vwof.activate_onload"
+           type="bool"/>
+  <setting title="Enable missing flash plugin warnings"
+           desc="Will remove the 'missing flash plugin warning' if unchecked"
+           pref="plugins.notifyMissingFlash"
+           type="bool"/>
+  <setting title="Enable approval message when fullscreen" 
+           desc="Will remove the 'video is now fullscreen, press ESC to quit' if unchecked"
+           pref="full-screen-api.approval-required"
+           type="bool"/>
+
+  <setting 
+      type="menulist"
+      desc="if available, pre-select this video Format/Quality in the video selector"
+      title="Prefered Format"
+      id="prefered_format"
+      pref="extensions.vwof.prefered_format">
+    <menulist>
+      <menupopup>
+        <menuitem label="webm" value="webm"/>
+        <menuitem label="mp4" value="mp4"/>
+        <menuitem label="avi" value="avi"/>
+        <menuitem label="flv" value="flv"/>	
+      </menupopup>
+    </menulist>
+  </setting>
+
+  <setting
+      type="menulist"
+      id="prefered_quality" 
+      title="Prefered Quality"
+      desc="if available, pre-select this video quality in the video selector"
+      pref="extensions.vwof.prefered_quality">
+    <menulist>
+      <menupopup>
+        <menuitem label="hd1080" value="hd1080"/>
+        <menuitem label="hd720" value="hd720"/>
+        <menuitem label="medium" value="medium"/>
+        <menuitem label="low" value="low"/>	
+      </menupopup>
+    </menulist>
+  </setting>
+
+</vbox>

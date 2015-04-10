@@ -37,7 +37,7 @@ vwofPlayer = {
 	video_selector_parent.replaceChild(node_playback, this);
     },
     /**
-       Create the html code to embed the video selector in the document
+       Create the html code which embed the video selector in the document
     */
     create_video_selector:function(video_info, cw){
 	//set the player size depending on the location where embed it
