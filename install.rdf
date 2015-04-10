@@ -21,7 +21,7 @@
     <em:creator>DREVET Olivier</em:creator>
 
     <!-- A link to the add-on home page to display in the user interface. -->
-    <em:homepageURL>http://mozilla.org</em:homepageURL>
+    <em:homepageURL>http://olivier.drevet.free.fr</em:homepageURL>
 
     <!-- Options. -->
     <em:optionsType>2</em:optionsType>
