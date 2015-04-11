@@ -3,11 +3,11 @@
 <!ENTITY list_of_modules_button_label "Afficher la liste des modules">
 <!ENTITY detect_video_onload_title "Detecter les videos lors du chargement de la page">
 <!ENTITY detect_video_onload_desc "Si coché, les vidéos seront détéctées lors du chargement de pages">
-<!ENTITY missing_flash_plugin_warning_title "Activer le message d'avertissement si flash n'est pas installé">
-<!ENTITY missing_flash_plugin_warning_desc "Will remove the 'missing flash plugin warning' if unchecked">
-<!ENTITY approval_message_title "Enable approval message when fullscreen">
-<!ENTITY approval_message_desc "Will remove the 'video is now fullscreen, press ESC to quit' if unchecked (Desktop only)">
-<!ENTITY prefered_format_title "Format favorit">
+<!ENTITY missing_flash_plugin_warning_title "Activer les message d'avertissements si flash n'est pas installé">
+<!ENTITY missing_flash_plugin_warning_desc "Si décoché, les messages d'avertissement qu'un contenu flash est présent sur la page en cours ne seront plus affichés">
+<!ENTITY approval_message_title "Activer les messages de confirmation lors du passage en plein écran">
+<!ENTITY approval_message_desc "Si décoché, les messages d'avertissement lors de la lecture d'une vidéo en plein écran ne seront plus affiché">
+<!ENTITY prefered_format_title "Format favori">
 <!ENTITY prefered_format_desc "Si disponible, ce format vidéo sera pré-selectionné dans le selecteur de video">
 <!ENTITY prefered_quality_title "Qualitée favorite">
 <!ENTITY prefered_quality_desc "Si disponible, cette qualitée de vidéo sera pré-selectionné dans le selecteur de video">
