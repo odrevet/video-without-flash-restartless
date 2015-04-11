@@ -144,9 +144,16 @@ vwofPlayer = {
 	node_link_new_tab.addEventListener('click', function(event){
 	    event.stopPropagation();
 	});
+
+        //get the open in a new tab link localized text
+        const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
+        Cu.import('resource://gre/modules/Services.jsm');
+        var stringBundle = Services.strings.createBundle('chrome://vwof/locale/player.properties?' + Math.random());
+        var newtab_label = stringBundle.GetStringFromName('newtab');
+
 	node_link_new_tab.setAttribute('href', video_info.videos[prefered_index].url);
 	node_link_new_tab.setAttribute('target', '_blank');
-	var a_content_new_tab = doc.createTextNode('Open in a new tab');
+	var a_content_new_tab = doc.createTextNode(newtab_label);
 	node_link_new_tab.appendChild(a_content_new_tab);
 	video_selector.appendChild(node_link_new_tab);
 

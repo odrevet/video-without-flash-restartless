@@ -1,3 +1,5 @@
 content vwof content/ contentaccessible=yes
 locale  vwof en-US locale/en-US/
+locale  vwof fr-FR locale/fr-FR/
+locale  vwof jp-JP locale/jp-JP/
 skin    vwof classic/1.0 skin/

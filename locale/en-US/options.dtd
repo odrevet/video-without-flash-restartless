@@ -1,0 +1,15 @@
+<!ENTITY list_of_modules_title "List of modules">
+<!ENTITY list_of_modules_desc "Display the list of modules to enable/disable">
+<!ENTITY list_of_modules_button_label "Display Modules List">
+<!ENTITY detect_video_onload_title "Detect videos on page load">
+<!ENTITY detect_video_onload_desc "If checked, the playable video source will be detected when the page load">
+<!ENTITY missing_flash_plugin_warning_title "Enable missing flash plugin warning">
+<!ENTITY missing_flash_plugin_warning_desc "Will remove the 'missing flash plugin warning' if unchecked">
+<!ENTITY approval_message_title "Enable approval message when fullscreen">
+<!ENTITY approval_message_desc "Will remove the 'video is now fullscreen, press ESC to quit' if unchecked (Desktop only)">
+<!ENTITY prefered_format_title "Prefered Format">
+<!ENTITY prefered_format_desc "if available, pre-select this video Format in the video selector">
+<!ENTITY prefered_quality_title "Prefered Quality">
+<!ENTITY prefered_quality_desc "if available, pre-select this video Quality in the video selector">
+<!ENTITY prefered_quality_medium "medium">
+<!ENTITY prefered_quality_low "low">

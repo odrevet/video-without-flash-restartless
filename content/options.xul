@@ -1,33 +1,33 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE mydialog SYSTEM "chrome://stylish/locale/overlay.dtd">
+<!DOCTYPE mydialog SYSTEM "chrome://vwof/locale/options.dtd">
 
 <vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <setting type="control"
-           title="List of modules"
-           desc="Display the list of modules to enable/disable">
+           title="&list_of_modules_title;"
+           desc="&list_of_modules_desc;">
     <button id="extensions-vwof-module-list" 
-            label="Display Modules List" 
+            label="&list_of_modules_button_label;" 
             oncommand="window.open('chrome://vwof/content/prefs_modules_list.xul');"/>  
   </setting>
 
-  <setting title="Detect videos on page load"
-           desc="If checked, the playable video source will be detected when the page load"
+  <setting title="&detect_video_onload_title;"
+           desc="&detect_video_onload_desc;"
            pref="extensions.vwof.activate_onload"
            type="bool"/>
-  <setting title="Enable missing flash plugin warnings"
-           desc="Will remove the 'missing flash plugin warning' if unchecked"
+  <setting title="&missing_flash_plugin_warning_title;"
+           desc="&missing_flash_plugin_warning_desc;"
            pref="plugins.notifyMissingFlash"
            type="bool"/>
-  <setting title="Enable approval message when fullscreen" 
-           desc="Will remove the 'video is now fullscreen, press ESC to quit' if unchecked"
+  <setting title="&approval_message_title;" 
+           desc="&approval_message_desc;"
            pref="full-screen-api.approval-required"
            type="bool"/>
 
   <setting 
       type="menulist"
-      desc="if available, pre-select this video Format/Quality in the video selector"
-      title="Prefered Format"
+      desc="&prefered_format_desc;"
+      title="&prefered_format_title;"
       id="prefered_format"
       pref="extensions.vwof.prefered_format">
     <menulist>
@@ -43,15 +43,15 @@
   <setting
       type="menulist"
       id="prefered_quality" 
-      title="Prefered Quality"
-      desc="if available, pre-select this video quality in the video selector"
+      title="&prefered_quality_title;"
+      desc="&prefered_quality_desc;"
       pref="extensions.vwof.prefered_quality">
     <menulist>
       <menupopup>
         <menuitem label="hd1080" value="hd1080"/>
         <menuitem label="hd720" value="hd720"/>
-        <menuitem label="medium" value="medium"/>
-        <menuitem label="low" value="low"/>	
+        <menuitem label="&prefered_quality_medium;" value="medium"/>
+        <menuitem label="&prefered_quality_low;" value="low"/>	
       </menupopup>
     </menulist>
   </setting>
