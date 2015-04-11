@@ -1,5 +1,0 @@
-<!ENTITY options_prefered_format "PREFERED FORMAT">
-<!ENTITY list_of_modules_label "モヅルのリスト">
-<!ENTITY list_of_modules_desc "Afficher la liste des modules a activer/deactiver">
-<!ENTITY list_of_modules_button_label "Afficher les Modules">
-<!ENTITY detect_video_onload_title "Tenter de detecter les videos lors du chargement d'une page">
