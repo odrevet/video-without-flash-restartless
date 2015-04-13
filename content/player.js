@@ -146,8 +146,6 @@ vwofPlayer = {
 	});
 
         //get the open in a new tab link localized text
-        const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
-        Cu.import('resource://gre/modules/Services.jsm');
         var stringBundle = Services.strings.createBundle('chrome://vwof/locale/player.properties?' + Math.random());
         var newtab_label = stringBundle.GetStringFromName('newtab');
 
