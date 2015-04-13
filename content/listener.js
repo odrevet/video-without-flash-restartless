@@ -15,7 +15,9 @@ var windowListenerNative = {
 };
 
 function loadIntoWindow(window) {
-    menuId = window.NativeWindow.menu.add("Detect Videos", null, function() {
+        var stringBundle = Services.strings.createBundle('chrome://vwof/locale/listener.properties?' + Math.random());
+        var detectvideo_label = stringBundle.GetStringFromName('detectvideo');
+    menuId = window.NativeWindow.menu.add(detectvideo_label, null, function() {
         vwof.detectVideo(window.content);
     });
     window.BrowserApp.deck.addEventListener("DOMContentLoaded", onPageLoad, false);
