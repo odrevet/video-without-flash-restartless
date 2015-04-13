@@ -1,5 +1,5 @@
 //Window listener for native UI (android)
-
+var menuId;
 var windowListenerNative = {
     onOpenWindow: function(aWindow) {
         // Wait for the window to finish loading
@@ -18,6 +18,7 @@ function loadIntoWindow(window) {
     menuId = window.NativeWindow.menu.add("Detect Videos", null, function() {
         vwof.detectVideo(window.content);
     });
+    window.BrowserApp.deck.addEventListener("DOMContentLoaded", onPageLoad, false);
 }
 
 function unloadFromWindow(window) {
@@ -25,11 +26,11 @@ function unloadFromWindow(window) {
         return;
 
     window.NativeWindow.menu.remove(menuId);
+    window.BrowserApp.deck.removeEventListener("DOMContentLoaded", arguments.callee, false);
 }
 
 // Window listener for Desktop
 var windowListener = {
-    ignoreFrames:true,
     onOpenWindow: function (aXULWindow) {
 	let aDOMWindow = aXULWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowInternal || Ci.nsIDOMWindow);
 	aDOMWindow.addEventListener("load", function () {
@@ -42,7 +43,7 @@ var windowListener = {
 	while (XULWindows.hasMoreElements()) {
 	    let aXULWindow = XULWindows.getNext();
 	    let aDOMWindow = aXULWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowInternal || Ci.nsIDOMWindow);
-	    windowListener.loadIntoWindow(aDOMWindow, aXULWindow);
+	    this.loadIntoWindow(aDOMWindow, aXULWindow);
 	}
 	// Listen to new windows
 	Services.wm.addListener(windowListener);
@@ -62,6 +63,9 @@ var windowListener = {
 	if (!aDOMWindow) {
 	    return;
 	}
+
+        init_keyboard_shortcut(aDOMWindow);
+
 	if (aDOMWindow.gBrowser) {
 	    aDOMWindow.gBrowser.addEventListener('DOMContentLoaded', onPageLoad, false);
 	    if (aDOMWindow.gBrowser.tabContainer) {
