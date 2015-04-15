@@ -5,10 +5,11 @@ Firefox extension for watching videos without the flash plugin
 
 
 Fetch video source of flash based media and play the video directly with 
-Firefox, without the use of the flash plug-in.
+Firefox, without the use of the flash plug-in. 
+
+Works with Firefox for Desktop and Android.
 
 **Supported sites/embed video player**
-* Youtube (partial support)
 * Blip
 * ScreenWaveMedia
 * HTML5
@@ -41,11 +42,6 @@ install exe.
 
 * Numerous options in the preference pane : select preferred 
 format / quality when available, disable modules. 
-
-**Known bugs**
-
-* YouTube : The video area is not reloading when clicking on a suggested video
- link. After clicking on such a link, and no ALT-w command.
 
 **How does it works**
 VWOF Fetchs the direct link to videos using regular expression, XPath, and DOM.
