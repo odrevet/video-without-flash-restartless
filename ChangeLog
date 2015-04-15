@@ -1,0 +1,29 @@
+Version 3.1.1 Released April 13, 2015
+
+	* Desktop: Fixed video detection Keyboard shortcut
+	* Android: Fixed video detection on page load
+	* Android: Localization of native UI detect video menu
+	(English, French, 日本語)
+
+Version 3.1.0 Released April 11, 2015
+
+	* Localization support, fully translated in French and partially
+	translated in Japanese.
+	* Preferences accessible with Firefox for Android
+	* Cleaned the code (listener.js)
+
+Version 3.0.0 Released April 9, 2015
+
+	* Removed obsolete module youtube.jsm
+	* Firefox for Android compatibility
+	* Display the video provider in the video selector
+
+Version 2.0.2 Released December 21, 2014
+	* Removed the last debugging to console in listener.js
+
+Version 2.0.1 Released December 19, 2014
+	* Removed console output log at startup
+
+Version 2.0.0 Released December 5, 2014
+	* Now bootstraped.
+	* Re-added fixed module ScreenWaveMedia
