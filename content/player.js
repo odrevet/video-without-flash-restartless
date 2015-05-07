@@ -2,11 +2,11 @@ vwofPlayer = {
     /**
        add the player stylecheet link to the head of the document
     */
-    add_style:function(doc, style_id){
+    add_css:function(doc, style_id, style_href){
 	var style = doc.createElement('link');
 	style.setAttribute('type', 'text/css');
 	style.setAttribute('rel', 'stylesheet');
-	style.setAttribute('href', 'chrome://vwof/skin/player.css');
+	style.setAttribute('href', style_href);
 	style.setAttribute('id', style_id);
 	doc.head.appendChild(style);
     },
@@ -24,8 +24,8 @@ vwofPlayer = {
 
 	//create the video element
 	var node_playback = doc.createElement('video');
-	node_playback.setAttribute('height', '100%');
-	node_playback.setAttribute('width', '100%');
+        var node_playback_style ='min-width:'+this.style.minWidth+';min-height:'+this.style.minHeight+';width:100%;height:100%;';
+        node_playback.setAttribute('style', node_playback_style);
 	node_playback.setAttribute('controls', 'controls');
 
 	var node_source = doc.createElement('source');
@@ -46,17 +46,18 @@ vwofPlayer = {
 
 	var h = cstyle.getPropertyValue("height");
 	var w = cstyle.getPropertyValue("width");
-	if(w == "0px")w="90vw";
-	if(h == "0px")h="90vh";
+	if(w == "0px")w="80vw";
+	if(h == "0px")h="80vh";
 
         var player_style_size = 'min-width:'+w+';min-height:'+h+';';
 	var player_style_image = '';
 	video_selector_id = 'vwof_' + Math.floor((Math.random() * 99));
 
-	//add the player css if necessary
-	const style_id = 'vowf_player_style';
+	//add css if necessary
+        var style_id;
+        style_id = 'vwof_style_player';
 	if(!doc.getElementById(style_id)){
-	    this.add_style(doc, style_id);
+	    this.add_css(doc, style_id, 'chrome://vwof/skin/player.css');
 	}
 	
 	//Create the 'video selector' (a div with detected videos links)
@@ -158,7 +159,8 @@ vwofPlayer = {
 	//display media source
 	if(video_info['source']){
 	    var node_span = doc.createElement('span');
-	    var node_source = doc.createTextNode('Powered by ' + video_info['source']);
+            var poweredby_label = stringBundle.GetStringFromName('poweredby');
+	    var node_source = doc.createTextNode(poweredby_label + ' ' + video_info['source']);
 	    node_span.setAttribute('style', 'bottom:1px;left:1px;');
 	    node_span.appendChild(node_source);
 	    video_selector.appendChild(node_span);
