@@ -9,7 +9,7 @@
     <em:id>vwof@drev.com</em:id>
 
     <!-- A version string identifying the version of the add-on. -->
-    <em:version>3.1.1</em:version>
+    <em:version>3.1.2</em:version>
 
     <!-- The name of the add-on; intended for display in the UI. -->
     <em:name>Video WithOut Flash</em:name>
