@@ -36,7 +36,6 @@
     font-weight: bold;
     margin-top: 8px;
     margin-right:5px;  
-
 }
 
 .vwof_player a{
@@ -60,4 +59,8 @@
     border: 0;
     border-radius: 0.2;
     color: #FFF;  
+}
+
+.vwof_player img{
+    border: 0;
 }
