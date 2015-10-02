@@ -47,7 +47,7 @@ function startup(data,reason) {
     //prefs
     PrefObserver.register();
     setDefaultPref(PREF_BRANCH, "modules", 
-                   '{"HTML5":0, "blip":1, "dailymotion":1, "niconico":1, "FC2":1, "ScreenWaveMedia":1}');
+                   '{"HTML5":0, "niconico":1, "FC2":1, "ScreenWaveMedia":1}');
     setDefaultPref(PREF_BRANCH, "prefered_quality", 'medium');
     setDefaultPref(PREF_BRANCH, "prefered_format", 'webm');
     setDefaultPref(PREF_BRANCH, "activate_onload", true);

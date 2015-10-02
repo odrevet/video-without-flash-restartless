@@ -1,6 +1,6 @@
 var vwof= {
     parsers:{},   //hash of the parsers (loaded from jsm modules)
-    parser_name:["blip", "dailymotion", "FC2", "HTML5", "niconico", "ScreenWaveMedia"],
+    parser_name:["FC2", "HTML5", "niconico", "ScreenWaveMedia"],
 
     /**
        Load modules listed in the extensions.vwof.modules pref variable to this.parsers hash

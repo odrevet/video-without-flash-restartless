@@ -10,10 +10,8 @@ Firefox, without the use of the flash plug-in.
 Works with Firefox for Desktop and Android.
 
 **Supported sites/embed video player**
-* Blip
 * ScreenWaveMedia
 * HTML5
-* Dailymotion
 * FC2
 * niconico
 
