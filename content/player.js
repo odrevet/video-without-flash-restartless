@@ -46,16 +46,15 @@ vwofPlayer = {
 
 	var h = cstyle.getPropertyValue("height");
 	var w = cstyle.getPropertyValue("width");
-	if(w == "0px")w="80vw";
+        if(w == "0px")w="80vw";
 	if(h == "0px")h="80vh";
 
-        var player_style_size = 'min-width:'+w+';min-height:'+h+';';
+        var player_style_size = 'min-width:'+w+';min-height:'+h+';width:100px;width:100px;';
 	var player_style_image = '';
 	video_selector_id = 'vwof_' + Math.floor((Math.random() * 99));
 
 	//add css if necessary
-        var style_id;
-        style_id = 'vwof_style_player';
+        var style_id = 'vwof_style_player';
 	if(!doc.getElementById(style_id)){
 	    this.add_css(doc, style_id, 'chrome://vwof/skin/player.css');
 	}
