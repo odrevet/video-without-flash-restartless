@@ -6,10 +6,10 @@ var parser = {
         const doc = cw.document;
 
         //src of the script tag to search
-        const URL_PLAYER_SCRIPT = 'http://player2.screenwavemedia.com/player.php';
+        const URL_PLAYER_SCRIPT = 'player2.screenwavemedia.com/player.php';
 
         //XPATH of the script tag
-        const XPATH_PLAYER_SCRIPT = "//script[starts-with(@src, '"+URL_PLAYER_SCRIPT+"')]";
+        const XPATH_PLAYER_SCRIPT = "//script[contains(@src, '"+URL_PLAYER_SCRIPT+"')]";
 
         //get the SWM script node
         var script_res = doc.evaluate(XPATH_PLAYER_SCRIPT, doc, null,
