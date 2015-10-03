@@ -1,57 +1,63 @@
 var parser = {
     parse_embed: function(cw) {
-	var player;
-	var videos = [];
-	var video_info = [];	
-	const doc = cw.document;
-	const REGEX_ID = /id=(.+)/;
-	const URL_VIDEO = 'http://video2.screenwavemedia.com/vod/VIDEO_ID_QUALITY.mp4';
-	const URL_IMAGE = 'http://image.screenwavemedia.com/VIDEO_ID_thumb_640x360.jpg';
-	const video_quality = ['audio', 'low', 'med', 'high', 'hd1'];
-	const URL_PLAYER_FRAME = 'http://player.screenwavemedia.com/play/player.php';
-	const XPATH_PLAYER_FRAME = "//iframe[starts-with(@src, '"+URL_PLAYER_FRAME+"')]"
-	const URL_PLAYER_SCRIPT = 'http://player.screenwavemedia.com/play/play.php';
-	const XPATH_PLAYER_SCRIPT = "//script[starts-with(@src, '"+URL_PLAYER_SCRIPT+"')]";
-	
-	var xp_res_player_frame = doc.evaluate(XPATH_PLAYER_FRAME, doc, null, 
-					       cw.XPathResult.FIRST_ORDERED_NODE_TYPE, 
-					       null);
+        var player;
+        var videos = [];
+        var video_info = [];
+        const doc = cw.document;
 
-	var node = xp_res_player_frame.singleNodeValue;
+        //src of the script tag to search
+        const URL_PLAYER_SCRIPT = 'http://player2.screenwavemedia.com/player.php';
 
-	if(node){
-	   player = node;
-	}
-	else{
-	    var xp_res_player_script = doc.evaluate(XPATH_PLAYER_SCRIPT, doc, null, 
-					       cw.XPathResult.FIRST_ORDERED_NODE_TYPE, 
-					       null);
+        //XPATH of the script tag
+        const XPATH_PLAYER_SCRIPT = "//script[starts-with(@src, '"+URL_PLAYER_SCRIPT+"')]";
 
-	    node = xp_res_player_script.singleNodeValue;
-	    if(!node)return;
+        //get the SWM script node
+        var script_res = doc.evaluate(XPATH_PLAYER_SCRIPT, doc, null,
+                                      cw.XPathResult.FIRST_ORDERED_NODE_TYPE,
+                                      null);
 
-	    player = doc.getElementById('videoarea');
-	    player.id = "swmvwof_player";
-	}
+        var script_node = script_res.singleNodeValue;
+        if(!script_node)return;
 
-	if(!node)return;
+        //get the player location
+        //var player = doc.getElementById('SWMPlayer-'+video_id+'-container');
+        var player = script_node.parentNode;
 
-	var video_id = node.src.match(REGEX_ID)[1];
+        //regex to find the Screen Wave Media Server address
+        const REGEX_SWM_ADDR = 'var SWMServer = "(.*)";';
+        
+        //search the SWM_Server ip address
+        var script_content = utils.get(script_node.src);        
+        const SWM_ADDR = script_content.match(REGEX_SWM_ADDR)[1];
+        
+        //hard coded known video quality
+        const video_quality = ['high', 'hd1'];
 
-	for (var i=0;i<video_quality.length;i++) {
-	    var url = URL_VIDEO.replace('VIDEO_ID', video_id);
-	    url = url.replace("QUALITY", video_quality[i]);
-	    videos.push( {'quality': video_quality[i], 'format':'mp4', 'url':url} );
-	}
+        //the direct link to the image and videos VIDEO_ID is to be replaced
+        //by the actual video id and QUALITY is to be replaced by the each
+        //elements in the video_quality array
+        const URL_VIDEO = 'http://'+SWM_ADDR+'/vod/VIDEO_ID_QUALITY.mp4';
+        const URL_IMAGE = 'http://image.screenwavemedia.com/VIDEO_ID_thumb_640x360.jpg';
+        
+        //get the video id from the script src value
+        const REGEX_ID = 'id=(.*)';
+        var video_id = script_node.src.match(REGEX_ID)[1];
 
-	var video_img = URL_IMAGE.replace('VIDEO_ID', video_id);
-	
-	video_info.push({
+        //replace VIDEO_ID and QUALITY with actual values
+        for (var i=0;i<video_quality.length;i++) {
+            var url = URL_VIDEO.replace('VIDEO_ID', video_id);
+            url = url.replace("QUALITY", video_quality[i]);
+            videos.push( {'quality': video_quality[i], 'format':'mp4', 'url':url} );
+        }
+
+        var video_img = URL_IMAGE.replace('VIDEO_ID', video_id);
+
+        video_info.push({
 	    'player': player,
 	    'video_img':video_img,
 	    'videos': videos
 	});
 
-	return video_info;
+        return video_info;
     }
 };
