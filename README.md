@@ -1,7 +1,9 @@
-video-without-flash
-===================
+# video-without-flash 
 
-Firefox extension for watching videos without the flash plugin
+
+Firefox extension for watching videos without the flash plugin. This extension has been featured by mozilla. 
+
+This extension has been discontinued since most websites has upgraded to HTML5 video player.
 
 
 Fetch video source of flash based media and play the video directly with 
